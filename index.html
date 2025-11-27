@@ -52,9 +52,63 @@
                 </div>
         </div>
 
+
+
+
+
+        <div id="info-screen" class="screen hidden">
+            <div class="info-wrapper">
+                <h2 class="section-title">INFO</h2>
+
+                <!-- CARD 1 - DELIVERY -->
+                <div class="info-card" id="info-delivery">
+                    <div class="info-header" onclick="toggleInfoCard('delivery')">
+                        <span class="info-icon">🛵</span>
+                        <span class="info-title">DELIVERY</span>
+                        <span class="info-arrow">▾</span>
+                    </div>
+                    <div class="info-body">
+                        <p>
+                        Mandare un messaggio: </br>- prodotto/quantità </br>- orario che preferisci </br>- screen del vostro instagram personale </br>- foto carta di identità (no fake)
+                        </p>
+                    </div>
+                </div>
+
+                <!-- CARD 2 - HORAIRES -->
+                <div class="info-card" id="info-horaires">
+                    <div class="info-header" onclick="toggleInfoCard('horaires')">
+                        <span class="info-icon">⏱️</span>
+                        <span class="info-title">ORARI</span>
+                        <span class="info-arrow">▾</span>
+                    </div>
+                    <div class="info-body">
+                        <p>
+                            Lunedi - Domenica : 16:00 - 22:00<br>
+                            Support disponible en message privé sur Telegram.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- CARD 3 - SHIPPING -->
+                <div class="info-card" id="info-shipping">
+                    <div class="info-header" onclick="toggleInfoCard('shipping')">
+                        <span class="info-icon">📦</span>
+                        <span class="info-title">SHIPPING</span>
+                        <span class="info-arrow">▾</span>
+                    </div>
+                    <div class="info-body">
+                        <p>
+                            Envoi discret et sécurisé dans toute la France.
+                            Numéro de suivi communiqué après l'expédition.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="links-screen" class="screen hidden">
             <div class="logo-container-small">
-                <h2>LINK UTILI</h2>
+                <h2 class="section-title">LINK UTILI</h2>
             </div>
             <div class="links-container">
                 <a href="#" class="link-btn">💬 Supporto Telegram</a>
@@ -71,11 +125,16 @@
             <span class="icon">🏠</span>
             <span class="label">HOME</span>
         </button>
+        <button class="nav-item" onclick="showScreen('info-screen')" id="nav-info">
+            <span class="icon">ℹ️</span>
+            <span class="label">INFO</span>
+        </button>
         <button class="nav-item" onclick="showScreen('links-screen')" id="nav-links">
             <span class="icon">🔗</span>
             <span class="label">LINKS</span>
         </button>
     </nav>
+
 
     <script src="script.js"></script>
 </body>
