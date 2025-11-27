@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Apulian Mini App</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="marquee">
+            <span>🌿 BENVENUTI IN APULIAN APP • SPEDIZIONI RAPIDE • QUALITÀ PREMIUM • NUOVI ARRIVI OGNI SETTIMANA 🌿</span>
+        </div>
+    </div>
+
+    <main id="app">
+        
+        <div id="home-screen" class="screen">
+            <div class="logo-container">
+                <img src="img/apulian.jpg" alt="Apulian Logo" class="main-logo">
+            </div>
+
+            <h2 class="section-title">CATEGORIE</h2>
+            
+            <div class="category-grid">
+                <div class="category-card brown-card" onclick="openCategory('CBD Flowers')">
+                </div>
+                <div class="category-card green-card" onclick="openCategory('Oils & Extracts')">
+                </div>
+                <div class="category-card white-card" onclick="openCategory('Accessories')">
+                </div>
+            </div>
+        </div>
+
+        <div id="category-screen" class="screen hidden">
+            <div class="header-compact">
+                <button class="back-btn" onclick="showScreen('home-screen')">❮ Indietro</button>
+                <h2 id="category-title">Nome Categoria</h2>
+            </div>
+
+            <div class="filters">
+                <input type="text" id="search-bar" placeholder="🔍 Cerca prodotto..." onkeyup="filterProducts()">
+                
+                <select id="farm-select" onchange="filterProducts()">
+                    <option value="all">Tutte le Farm</option>
+                    </select>
+            </div>
+
+            <div id="product-list" class="product-list">
+                </div>
+        </div>
+
+        <div id="links-screen" class="screen hidden">
+            <div class="logo-container-small">
+                <h2>LINK UTILI</h2>
+            </div>
+            <div class="links-container">
+                <a href="#" class="link-btn">💬 Supporto Telegram</a>
+                <a href="#" class="link-btn">📷 Instagram</a>
+                <a href="#" class="link-btn">🌐 Sito Web</a>
+                <a href="#" class="link-btn">📜 Termini e Condizioni</a>
+            </div>
+        </div>
+
+    </main>
+
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="showScreen('home-screen')" id="nav-home">
+            <span class="icon">🏠</span>
+            <span class="label">HOME</span>
+        </button>
+        <button class="nav-item" onclick="showScreen('links-screen')" id="nav-links">
+            <span class="icon">🔗</span>
+            <span class="label">LINKS</span>
+        </button>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+</html>
