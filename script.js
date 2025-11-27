@@ -1,13 +1,8 @@
 // DATABASE PRODOTTI (Dummy Data)
 const products = [
-    { id: 1, name: "Purple Haze", category: "CBD Flowers", price: "€ 5.00/g", farm: "ApuliaFarm" },
+    { id: 1, name: "Frozen premium 2k26", category: "CBD Flowers", price: "€ 12.00/g", farm: "FlyFarm" },
     { id: 2, name: "Lemon Kush", category: "CBD Flowers", price: "€ 6.50/g", farm: "GreenHouse" },
-    { id: 3, name: "Amnesia", category: "CBD Flowers", price: "€ 5.50/g", farm: "ApuliaFarm" },
-    { id: 4, name: "CBD Oil 10%", category: "Oils & Extracts", price: "€ 29.90", farm: "BioExtracts" },
-    { id: 5, name: "CBD Oil 20%", category: "Oils & Extracts", price: "€ 49.90", farm: "BioExtracts" },
-    { id: 6, name: "Grinder Metal", category: "Accessories", price: "€ 12.00", farm: "AccessoriesCo" },
-    { id: 7, name: "Cartine Lunghe", category: "Accessories", price: "€ 1.50", farm: "AccessoriesCo" },
-    { id: 8, name: "Moonrock", category: "CBD Flowers", price: "€ 15.00/g", farm: "GreenHouse" },
+
 ];
 
 let currentCategory = "";
@@ -44,10 +39,13 @@ function updateFooter(activeScreenId) {
     
     if (activeScreenId === 'home-screen' || activeScreenId === 'category-screen') {
         document.getElementById('nav-home').classList.add('active');
+    } else if (activeScreenId === 'info-screen') {
+        document.getElementById('nav-info').classList.add('active');
     } else if (activeScreenId === 'links-screen') {
         document.getElementById('nav-links').classList.add('active');
     }
 }
+
 
 // LOGICA CATEGORIE E PRODOTTI
 function openCategory(categoryName) {
@@ -114,5 +112,30 @@ function filterProducts() {
             </div>
         `;
         container.appendChild(card);
+    });
+}
+
+
+
+
+
+// LOGICA ACCORDION INFO
+function toggleInfoCard(key) {
+    const cards = document.querySelectorAll('.info-card');
+    
+    cards.forEach(card => {
+        const isTarget = card.id === 'info-' + key;
+        
+        if (isTarget) {
+            // se è già aperta, chiudila; altrimenti apri e chiudi le altre
+            const alreadyOpen = card.classList.contains('open');
+            if (alreadyOpen) {
+                card.classList.remove('open');
+            } else {
+                card.classList.add('open');
+            }
+        } else {
+            card.classList.remove('open');
+        }
     });
 }
