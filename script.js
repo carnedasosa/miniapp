@@ -1,7 +1,11 @@
 // DATABASE PRODOTTI (Dummy Data)
 const products = [
-    { id: 1, name: "Frozen premium 2k26", category: "CBD Flowers", price: "€ 12.00/g", farm: "FlyFarm" },
-    { id: 2, name: "Lemon Kush", category: "CBD Flowers", price: "€ 6.50/g", farm: "GreenHouse" },
+    { id: 1, name: "Frozen premium 2k26", category: "Hash Products", price: "€ 12.00/g", farm: "FlyFarm" },
+
+    { id: 2, name: "Lemon Kush", category: "Weed Flowers", price: "€ 6.50/g", farm: "GreenHouse" },
+
+    { id: 3, name: "Rosin", category: "Extracts", price: "€ 60/g", farm: "Amsterdam" },
+
 
 ];
 
