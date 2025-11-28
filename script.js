@@ -1,145 +1,218 @@
-// DATABASE PRODOTTI (Dummy Data)
-const products = [
-    { id: 1, name: "Frozen premium 2k26", category: "Hash Products", price: "€ 12.00/g", farm: "FlyFarm" },
-
-    { id: 2, name: "Lemon Kush", category: "Weed Flowers", price: "€ 6.50/g", farm: "GreenHouse" },
-
-    { id: 3, name: "Rosin", category: "Extracts", price: "€ 60/g", farm: "Amsterdam" },
-
-
-];
-
+let products = [];
 let currentCategory = "";
 
-// INIZIALIZZAZIONE TELEGRAM WEBAPP
-window.onload = function() {
-    if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.expand(); // Espande l'app a tutto schermo
-        window.Telegram.WebApp.ready();  // Segnala che l'app è pronta
+// --------------------------------------
+// FUTURO-PROOF: Carica i prodotti (statico ora)
+// --------------------------------------
+async function loadProductsData() {
+    return [
+        {
+            id: 1,
+            name: "Frozen premium 2k26",
+            category: "Hash Products",
+            farm: "FlyFarm",
+            thumb: "img/flyfarm.jpg",
+            videoUrl: "media/flyfarm.mp4",
+            tariffs: [
+                { label: "4g", price: "20€" },
+                { label: "10g", price: "50€" },
+                { label: "25g", price: "90€" },
+                { label: "50g", price: "160€" }
+            ]
+        },
+
+        {
+            id: 2,
+            name: "static premium 2k26",
+            category: "Hash Products",
+            farm: "FlyFarm",
+            thumb: "img/apulian.jpg",
+            videoUrl: "",
+            tariffs: [
+                { label: "4g", price: "18€" },
+                { label: "10g", price: "45€" },
+                { label: "25g", price: "80€" },
+                { label: "50g", price: "150€" }
+            ]
+        },
+
+        {
+            id: 3,
+            name: "Lemon Kush",
+            category: "Weed Flowers",
+            farm: "GreenHouse",
+            thumb: "img/lemon.jpg",
+            videoUrl: "media/lemon.mp4",
+            tariffs: [
+                { label: "4g", price: "15€" },
+                { label: "10g", price: "35€" },
+                { label: "25g", price: "70€" },
+                { label: "50g", price: "120€" }
+            ]
+        },
+
+        {
+            id: 4,
+            name: "Rosin",
+            category: "Extracts",
+            farm: "Amsterdam",
+            thumb: "img/rosin.jpg",
+            videoUrl: "",
+            tariffs: [
+                { label: "1g", price: "60€" },
+                { label: "2g", price: "110€" }
+            ]
+        }
+    ];
+}
+
+// --------------------------------------
+// INIT
+// --------------------------------------
+window.onload = async function () {
+    products = await loadProductsData();
+
+    if (window.Telegram?.WebApp) {
+        Telegram.WebApp.expand();
+        Telegram.WebApp.ready();
     }
 };
 
-// NAVIGAZIONE SPA
-function showScreen(screenId) {
-    // Nascondi tutte le schermate
-    document.querySelectorAll('.screen').forEach(screen => {
-        screen.classList.add('hidden');
-    });
 
-    // Mostra quella richiesta
-    const targetScreen = document.getElementById(screenId);
-    if(targetScreen) {
-        targetScreen.classList.remove('hidden');
-        // Reset scroll
-        targetScreen.scrollTop = 0;
-    }
+// --------------------------------------
+// NAVIGAZIONE
+// --------------------------------------
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
 
-    // Aggiorna stato Footer Tab
-    updateFooter(screenId);
+    updateFooter(id);
 }
 
-function updateFooter(activeScreenId) {
-    document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
-    
-    if (activeScreenId === 'home-screen' || activeScreenId === 'category-screen') {
-        document.getElementById('nav-home').classList.add('active');
-    } else if (activeScreenId === 'info-screen') {
-        document.getElementById('nav-info').classList.add('active');
-    } else if (activeScreenId === 'links-screen') {
-        document.getElementById('nav-links').classList.add('active');
-    }
+function updateFooter(id) {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+    if (["home-screen", "category-screen", "product-screen"].includes(id))
+        document.getElementById("nav-home").classList.add("active");
+
+    else if (id === "info-screen")
+        document.getElementById("nav-info").classList.add("active");
+
+    else if (id === "links-screen")
+        document.getElementById("nav-links").classList.add("active");
 }
 
-
-// LOGICA CATEGORIE E PRODOTTI
+// --------------------------------------
+// CATEGORIE
+// --------------------------------------
 function openCategory(categoryName) {
     currentCategory = categoryName;
-    document.getElementById('category-title').innerText = categoryName;
-    
-    // Resetta filtri
-    document.getElementById('search-bar').value = "";
-    populateFarmSelect(categoryName);
-    
-    // Renderizza prodotti
+
+    document.getElementById("category-title").innerText = categoryName;
+    document.getElementById("search-bar").value = "";
+
+    populateFarmSelect();
     filterProducts();
-    
-    // Cambia schermata
     showScreen('category-screen');
 }
 
-function populateFarmSelect(category) {
-    const farmSelect = document.getElementById('farm-select');
-    // Resetta le option mantenendo la prima
-    farmSelect.innerHTML = '<option value="all">Tutte le Farm</option>';
-    
-    // Trova farm uniche per questa categoria
-    const farms = [...new Set(products
-        .filter(p => p.category === category)
-        .map(p => p.farm))];
-    
-    farms.forEach(farm => {
-        const option = document.createElement('option');
-        option.value = farm;
-        option.innerText = farm;
-        farmSelect.appendChild(option);
+
+// --------------------------------------
+// FILTRI
+// --------------------------------------
+function populateFarmSelect() {
+    const select = document.getElementById("farm-select");
+    select.innerHTML = `<option value="all">Tutte le Farm</option>`;
+
+    [...new Set(products
+        .filter(p => p.category === currentCategory)
+        .map(p => p.farm)
+    )].forEach(f => {
+        const opt = document.createElement("option");
+        opt.value = f;
+        opt.innerText = f;
+        select.appendChild(opt);
     });
 }
 
 function filterProducts() {
-    const searchTerm = document.getElementById('search-bar').value.toLowerCase();
-    const selectedFarm = document.getElementById('farm-select').value;
-    const container = document.getElementById('product-list');
-    
-    container.innerHTML = ""; // Pulisci lista
+    const search = document.getElementById("search-bar").value.toLowerCase();
+    const farm = document.getElementById("farm-select").value;
+    const box = document.getElementById("product-list");
 
-    const filtered = products.filter(p => {
-        const matchCategory = p.category === currentCategory;
-        const matchSearch = p.name.toLowerCase().includes(searchTerm);
-        const matchFarm = selectedFarm === "all" || p.farm === selectedFarm;
-        
-        return matchCategory && matchSearch && matchFarm;
-    });
+    box.innerHTML = "";
 
-    if (filtered.length === 0) {
-        container.innerHTML = "<p style='text-align:center; color:#666; margin-top:20px;'>Nessun prodotto trovato.</p>";
-        return;
-    }
+    const filtered = products.filter(p =>
+        p.category === currentCategory &&
+        p.name.toLowerCase().includes(search) &&
+        (farm === "all" || p.farm === farm)
+    );
 
-    filtered.forEach(product => {
-        const card = document.createElement('div');
-        card.className = 'product-item';
+    filtered.forEach(prod => {
+        const card = document.createElement("div");
+        card.className = "product-item";
+
+        const thumbHTML = prod.thumb
+            ? `<img src="${prod.thumb}" class="prod-thumb-small">`
+            : "";
+
         card.innerHTML = `
+            ${thumbHTML}
             <div class="product-info">
-                <div class="product-name">${product.name}</div>
-                <div class="product-meta">Farm: ${product.farm}</div>
-                <div class="product-price">${product.price}</div>
+                <div class="product-name">${prod.name}</div>
+                <div class="product-meta">${prod.farm}</div>
             </div>
         `;
-        container.appendChild(card);
+
+        card.onclick = () => openProduct(prod.id);
+        box.appendChild(card);
     });
 }
 
 
+// --------------------------------------
+// PRODUCT PAGE
+// --------------------------------------
+function openProduct(id) {
+    const p = products.find(pr => pr.id === id);
+    if (!p) return;
+
+    document.getElementById("product-title").innerText = p.name;
+    document.getElementById("product-farm-top").innerText = p.farm;
+
+    // VIDEO
+    const videoWrap = document.getElementById("product-video-wrapper");
+    if (p.videoUrl) {
+        videoWrap.classList.remove("hidden");
+        document.getElementById("product-video-src").src = p.videoUrl;
+        document.getElementById("product-video").load();
+    } else videoWrap.classList.add("hidden");
+
+    // TARIFE
+    const grid = document.getElementById("tariffs-grid");
+    grid.innerHTML = "";
+
+    p.tariffs.forEach(t => {
+        const box = document.createElement("div");
+        box.className = "tariff-card";
+        box.innerHTML = `
+            <div class="tariff-quantity">${t.label}</div>
+            <div class="tariff-price">${t.price}</div>
+        `;
+        grid.appendChild(box);
+    });
+
+    showScreen('product-screen');
+}
 
 
-
-// LOGICA ACCORDION INFO
+// --------------------------------------
+// INFO CARD
+// --------------------------------------
 function toggleInfoCard(key) {
-    const cards = document.querySelectorAll('.info-card');
-    
-    cards.forEach(card => {
-        const isTarget = card.id === 'info-' + key;
-        
-        if (isTarget) {
-            // se è già aperta, chiudila; altrimenti apri e chiudi le altre
-            const alreadyOpen = card.classList.contains('open');
-            if (alreadyOpen) {
-                card.classList.remove('open');
-            } else {
-                card.classList.add('open');
-            }
-        } else {
-            card.classList.remove('open');
-        }
+    document.querySelectorAll(".info-card").forEach(card => {
+        const open = card.id === "info-" + key;
+        if (open) card.classList.toggle("open");
+        else card.classList.remove("open");
     });
 }
