@@ -192,6 +192,7 @@ body {
 
 .product-item {
     display: flex;
+    flex-direction: column;
     background: #1e1e1e;
     border-radius: 12px;
     padding: 15px;
@@ -259,6 +260,10 @@ body {
     border-top: 1px solid #333;
     z-index: 100;
     padding-bottom: 2px;
+}
+
+.bottom-icon {
+    margin-top: 8px;
 }
 
 .nav-item {
@@ -357,4 +362,72 @@ body {
 /* Freccia ruotata quando aperto */
 .info-card.open .info-arrow {
     transform: rotate(180deg);
+}
+
+
+
+
+
+
+/* PRODOTTI: Griglia 2 colonne */
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+/* Thumbnail piccola */
+.prod-thumb-small {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+
+/* PAGINA PRODOTTO */
+.product-detail {
+    margin-top: 20px;
+}
+
+.product-thumb-big img,
+.product-video-wrapper video {
+    width: 100%;
+    border-radius: 15px;
+}
+
+.product-thumb-big {
+    margin-bottom: 15px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* TARIFFE 2×2 */
+.tariffs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.tariff-card {
+    background: #1e1e1e;
+    border-radius: 12px;
+    border: 1px solid #333;
+    padding: 12px;
+    text-align: center;
+}
+
+.tariff-quantity {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.tariff-price {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #00e676;
 }
