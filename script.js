@@ -26,7 +26,7 @@ async function loadProductsData() {
             category: "Weed Flowers",
             farm: "Marocco Farm",
             thumb: "img/californiana.jpg",
-            videoUrl: "media/flyfarm.mp4",
+            videoUrl: "",
             tariffs: [
                 { label: "3g", price: "30€" },
                 { label: "10g", price: "80€" },
@@ -40,7 +40,7 @@ async function loadProductsData() {
             category: "Weed Flowers",
             farm: "amsterdam Farm",
             thumb: "img/purple-haze.jpg",
-            videoUrl: "media/flyfarm.mp4",
+            videoUrl: "",
             tariffs: [
                 { label: "3g", price: "30€" },
                 { label: "10g", price: "80€" },
@@ -224,3 +224,4 @@ function toggleInfoCard(key) {
         else card.classList.remove("open");
     });
 }
+
