@@ -20,47 +20,32 @@ async function loadProductsData() {
                 { label: "50g", price: "160€" }
             ]
         },
-
         {
             id: 2,
-            name: "static premium 2k26",
-            category: "Hash Products",
-            farm: "FlyFarm",
-            thumb: "img/apulian.jpg",
-            videoUrl: "",
+            name: "Californiana",
+            category: "Weed Flowers",
+            farm: "Marocco Farm",
+            thumb: "img/californiana.jpg",
+            videoUrl: "media/flyfarm.mp4",
             tariffs: [
-                { label: "4g", price: "18€" },
-                { label: "10g", price: "45€" },
-                { label: "25g", price: "80€" },
-                { label: "50g", price: "150€" }
+                { label: "3g", price: "30€" },
+                { label: "10g", price: "80€" },
+                { label: "25g", price: "170€" },
+                { label: "50g", price: "500€" }
             ]
         },
-
         {
             id: 3,
-            name: "Lemon Kush",
+            name: "purple haze",
             category: "Weed Flowers",
-            farm: "GreenHouse",
-            thumb: "img/lemon.jpg",
-            videoUrl: "media/lemon.mp4",
+            farm: "amsterdam Farm",
+            thumb: "img/purple-haze.jpg",
+            videoUrl: "media/flyfarm.mp4",
             tariffs: [
-                { label: "4g", price: "15€" },
-                { label: "10g", price: "35€" },
-                { label: "25g", price: "70€" },
-                { label: "50g", price: "120€" }
-            ]
-        },
-
-        {
-            id: 4,
-            name: "Rosin",
-            category: "Extracts",
-            farm: "Amsterdam",
-            thumb: "img/rosin.jpg",
-            videoUrl: "",
-            tariffs: [
-                { label: "1g", price: "60€" },
-                { label: "2g", price: "110€" }
+                { label: "3g", price: "30€" },
+                { label: "10g", price: "80€" },
+                { label: "25g", price: "170€" },
+                { label: "50g", price: "500€" }
             ]
         }
     ];
@@ -82,12 +67,32 @@ window.onload = async function () {
 // --------------------------------------
 // NAVIGAZIONE
 // --------------------------------------
-function showScreen(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-    document.getElementById(id).classList.remove('hidden');
+function showScreen(screenId) {
+    // Se sto uscendo dalla pagina prodotto → stoppo il video
+    if (screenId !== 'product-screen') {
+        const video = document.getElementById('product-video');
+        if (video) {
+            video.pause();
+            video.currentTime = 0; // torni all'inizio
+        }
+    }
 
-    updateFooter(id);
+    // Nascondi tutte le schermate
+    document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.add('hidden');
+    });
+
+    // Mostra quella richiesta
+    const targetScreen = document.getElementById(screenId);
+    if (targetScreen) {
+        targetScreen.classList.remove('hidden');
+        targetScreen.scrollTop = 0;
+    }
+
+    // Aggiorna stato Footer
+    updateFooter(screenId);
 }
+
 
 function updateFooter(id) {
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -152,9 +157,12 @@ function filterProducts() {
         const card = document.createElement("div");
         card.className = "product-item";
 
-        const thumbHTML = prod.thumb
-            ? `<img src="${prod.thumb}" class="prod-thumb-small">`
-            : "";
+    const thumbHTML = prod.thumb
+        ? `<img src="${prod.thumb}"
+                class="prod-thumb-small"
+                loading="lazy"
+                alt="${prod.name}">`: "";
+
 
         card.innerHTML = `
             ${thumbHTML}
